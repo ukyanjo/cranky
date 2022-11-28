@@ -16,7 +16,7 @@ class OrderItemService {
     const foundOrderItem = await this.orderItemRepository.findById(orderItemId);
     if (!foundOrderItem) {
       throw new Error(
-        "해당 id의 주문아이템은 없습니다. 다시 한 번 확인해 주세요."
+        "해당 id의 품목을 찾지 못했습니다.. 다시 한 번 확인해 주세요."
       );
     }
     return foundOrderItem;
@@ -54,7 +54,7 @@ class OrderItemService {
       orderItemId
     );
     if (deletedCount === 0) {
-      throw new Error(`${orderItemId} 품목의 삭제에 실패하였습니다`);
+      throw new Error(`${orderItemId} 품목을 삭제하지 못했습니다`);
     }
     return { result: "success" };
   }

@@ -45,7 +45,7 @@ const ProductSchema = new Schema(
     discountRate: {
       type: Number,
       min: 0,
-      max: 95,
+      max: 99,
       default: 0,
       required: false,
     },

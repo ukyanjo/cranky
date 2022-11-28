@@ -10,9 +10,7 @@ class ProductService {
     const { title } = productInfo;
     const foundProduct = await this.productRepository.findByTitle(title);
     if (foundProduct) {
-      throw new Error(
-        "이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요."
-      );
+      throw new Error("현재 사용중인 이름입니다. 다른 이름을 입력해주세요.");
     }
     const createdProduct = await this.productRepository.create(productInfo);
     console.log("this done");
@@ -22,7 +20,9 @@ class ProductService {
   async getProductById(productId) {
     const foundProduct = await this.productRepository.findById(productId);
     if (!foundProduct) {
-      throw new Error("해당 id의 제품은 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error(
+        "해당 id의 제품을 찾지 못했습니다. 다시 한 번 확인해주세요."
+      );
     }
     return foundProduct;
   }
@@ -54,7 +54,7 @@ class ProductService {
   async removeProductById(productId) {
     const { deletedCount } = await this.productRepository.deleteById(productId);
     if (deletedCount === 0) {
-      throw new Error(`${productId} 제품의 삭제에 실패하였습니다`);
+      throw new Error(`${productId} 제품을 삭제하지 못했습니다.`);
     }
     return { result: "success" };
   }

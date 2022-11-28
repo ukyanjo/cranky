@@ -1,8 +1,7 @@
 import fs from "fs";
 
-function errorLogger(error, req, res, next) {
+const errorLogger = (err, req, res, next) => {
   const current_datetime = new Date();
-
   const dateFormatted =
     current_datetime.getFullYear() +
     "-" +
@@ -15,19 +14,17 @@ function errorLogger(error, req, res, next) {
     current_datetime.getMinutes() +
     ":" +
     current_datetime.getSeconds();
-
   const method = req.method;
   const url = req.url;
-  const errorContent = error.stack;
-
+  const errorContent = err.stack;
   const errorLog = `[${dateFormatted}] ${method}:${url}\n${errorContent}\n\n`;
-
   fs.appendFile("error.log", errorLog, (err) => {
     if (err) {
-      console.log(err);
+      throw new Error("에러 로깅에 실패했습니다.");
     }
   });
-  next(error);
-}
+
+  next(err);
+};
 
 export { errorLogger };

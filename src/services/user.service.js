@@ -7,23 +7,20 @@ class UserService {
     this.userRepository = userRepository;
   }
 
-  passwordMatch = function (foundUser, password) {
+  passwordMatch = (foundUser, password) => {
     const hashedPassword = foundUser.password;
     const passwordMatch = bcrypt.compare(password, hashedPassword);
     if (!passwordMatch) {
-      throw new Error(
-        "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-      );
+      throw new Error("비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.");
     }
   };
 
   async addUser(userInfo) {
     const { email, fullName, password } = userInfo;
-    console.log("this done");
     const foundUser = await this.userRepository.findByEmail(email);
     if (foundUser) {
       throw new Error(
-        "해당 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
+        "현재 사용중인 이메일입니다. 다른 이메일을 입력해주세요."
       );
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -35,7 +32,7 @@ class UserService {
   async getUserById(userId) {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해주세요.");
     }
     return user;
   }
@@ -49,19 +46,9 @@ class UserService {
     const { userId, currentPassword } = userInfo;
     let foundUser = await this.userRepository.findById(userId);
     if (!foundUser) {
-      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해주세요.");
     }
     this.passwordMatch(foundUser, currentPassword);
-    // const correctPasswordHash = user.password;
-    // const passwordMatch = await bcrypt.compare(
-    //   currentPassword,
-    //   correctPasswordHash
-    // );
-    // if (!passwordMatch) {
-    //   throw new Error(
-    //     "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-    //   );
-    // }
     const { password } = updateInfo;
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -91,13 +78,6 @@ class UserService {
       );
     }
     this.passwordMatch(foundUser, password);
-    // const hashedPassword = foundUser.password;
-    // const passwordMatch = await bcrypt.compare(password, hashedPassword);
-    // if (!passwordMatch) {
-    //   throw new Error(
-    //     "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-    //   );
-    // }
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const token = jwt.sign(
       { userId: foundUser._id, role: foundUser.role },
@@ -110,13 +90,6 @@ class UserService {
   async checkPassword(userId, password) {
     const foundUser = await this.userRepository.findById(userId);
     this.passwordMatch(foundUser, password);
-    // const correctPasswordHash = user.password;
-    // const passwordMatch = await bcrypt.compare(password, correctPasswordHash);
-    // if (!passwordMatch) {
-    //   throw new Error(
-    //     "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
-    //   );
-    // }
     return foundUser;
   }
 

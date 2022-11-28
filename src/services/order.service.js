@@ -13,7 +13,9 @@ class OrderService {
   async getOrderById(orderId) {
     const foundOrder = await this.orderRepository.findById(orderId);
     if (!foundOrder) {
-      throw new Error("해당 id의 주문은 없습니다. 다시 한 번 확인해 주세요.");
+      throw new Error(
+        "해당 id의 주문을 찾지 못했습니다. 다시 한 번 확인해 주세요."
+      );
     }
     return foundOrder;
   }
@@ -39,7 +41,7 @@ class OrderService {
   async removeOrderById(orderId) {
     const { deletedCount } = await this.orderRepository.deleteById(orderId);
     if (deletedCount === 0) {
-      throw new Error(`${orderId} 주문의 삭제에 실패하였습니다`);
+      throw new Error(`${orderId} 주문을 삭제하지 못했습니다.`);
     }
     return { result: "success" };
   }
