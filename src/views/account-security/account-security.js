@@ -1,7 +1,6 @@
 import { checkLogin, createNavbar } from "../../useful-functions.js";
 import * as Api from "../../api.js";
 
-// 요소(element), input 혹은 상수
 const securityTitle = document.querySelector("#securityTitle");
 const fullNameInput = document.querySelector("#fullNameInput");
 const fullNameToggle = document.querySelector("#fullNameToggle");
@@ -26,13 +25,11 @@ checkLogin();
 addAllElements();
 addAllEvents();
 
-// 요소 삽입 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllElements() {
   createNavbar();
   insertUserData();
 }
 
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
   fullNameToggle.addEventListener("change", toggleTargets);
   passwordToggle.addEventListener("change", toggleTargets);
@@ -46,12 +43,10 @@ function addAllEvents() {
   saveCompleteButton.addEventListener("click", saveUserData);
 }
 
-// input 및 주소찾기 버튼의 disabled <-> abled 상태를 토글함.
 function toggleTargets(e) {
   const toggleId = e.target.id;
   const isChecked = e.target.checked;
 
-  // 어떤 요소들의 토글인지 확인
   let targets;
 
   if (toggleId.includes("fullName")) {
@@ -72,10 +67,8 @@ function toggleTargets(e) {
     targets = [phoneNumberInput];
   }
 
-  // 여러 개의 타겟이 있을 때, 첫 타겟만 focus 시키기 위한 flag
   let isFocused;
 
-  // 토글 진행
   for (const target of targets) {
     if (isChecked) {
       target.removeAttribute("disabled");
@@ -87,28 +80,21 @@ function toggleTargets(e) {
     }
   }
 
-  // 열림 토글인 경우는 여기서 끝
   if (isChecked) {
     return;
   }
 
-  // 닫힘 토글인 경우임. disabled 처리를 위해 다시 한번 for 루프 씀.
   for (const target of targets) {
     target.setAttribute("disabled", "");
   }
 }
 
-// 페이지 로드 시 실행
-// 나중에 사용자가 데이터를 변경했는지 확인하기 위해, 전역 변수로 userData 설정
 let userData;
 async function insertUserData() {
   userData = await Api.get("/api/user");
 
-  // 객체 destructuring
   const { fullName, email, address, phoneNumber } = userData;
 
-  // 서버에서 온 비밀번호는 해쉬 문자열인데, 이를 빈 문자열로 바꿈
-  // 나중에 사용자가 비밀번호 변경을 위해 입력했는지 확인하기 위함임.
   userData.password = "";
 
   securityTitle.innerText = `회원정보 관리 (${email})`;
@@ -121,7 +107,6 @@ async function insertUserData() {
     address1Input.value = address1;
     address2Input.value = address2;
   } else {
-    // 나중에 입력 여부를 확인하기 위해 설정함
     userData.address = { postalCode: "", address1: "", address2: "" };
   }
 
@@ -129,10 +114,8 @@ async function insertUserData() {
     phoneNumberInput.value = phoneNumber;
   }
 
-  // 크롬 자동완성 삭제함.
   passwordInput.value = "";
 
-  // 기본적으로 disabled 상태로 만듦
   disableForm();
 }
 
@@ -151,7 +134,6 @@ function disableForm() {
   phoneNumberInput.setAttribute("disabled", "");
 }
 
-// Daum 주소 API (사용 설명 https://postcode.map.daum.net/guide)
 function searchAddress(e) {
   e.preventDefault();
 
@@ -188,7 +170,6 @@ function searchAddress(e) {
   }).open();
 }
 
-// db에 정보 저장
 async function saveUserData(e) {
   e.preventDefault();
 
@@ -208,7 +189,6 @@ async function saveUserData(e) {
   const isAddress2Changed = address2 !== (userData.address?.address2 || "");
   const isAddressChanged = isPostalCodeChanged || isAddress2Changed;
 
-  // 비밀번호를 새로 작성한 경우
   if (password && !isPasswordLong) {
     closeModal();
     return alert("비밀번호는 4글자 이상이어야 합니다.");
@@ -220,7 +200,6 @@ async function saveUserData(e) {
 
   const data = { currentPassword };
 
-  // 초기값과 다를 경우 api 요청에 사용할 data 객체에 넣어줌
   if (fullName !== userData.fullName) {
     data.fullName = fullName;
   }
@@ -229,7 +208,6 @@ async function saveUserData(e) {
     data.password = password;
   }
 
-  // 주소를 변경했는데, 덜 입력한 경우
   if (isAddressChanged && !address2) {
     closeModal();
     return alert("주소를 모두 입력해 주세요.");
@@ -247,7 +225,6 @@ async function saveUserData(e) {
     data.phoneNumber = phoneNumber;
   }
 
-  // 만약 업데이트할 것이 없다면 (디폴트인 currentPassword만 있어서 1개라면), 종료함
   const toUpdate = Object.keys(data);
   if (toUpdate.length === 1) {
     disableForm();
@@ -257,7 +234,6 @@ async function saveUserData(e) {
 
   try {
     const { _id } = userData;
-    // db에 수정된 정보 저장
     await Api.patch("/api/users", _id, data);
 
     alert("회원정보가 안전하게 저장되었습니다.");
@@ -268,7 +244,6 @@ async function saveUserData(e) {
   }
 }
 
-// Modal 창 열기
 function openModal(e) {
   e.preventDefault();
 
@@ -276,7 +251,6 @@ function openModal(e) {
   currentPasswordInput.focus();
 }
 
-// Modal 창 닫기
 function closeModal(e) {
   if (e) {
     e.preventDefault();
@@ -285,9 +259,7 @@ function closeModal(e) {
   modal.classList.remove("is-active");
 }
 
-// 키보드로 Modal 창 닫기
 function keyDownCloseModal(e) {
-  // Esc 키
   if (e.keyCode === 27) {
     closeModal();
   }

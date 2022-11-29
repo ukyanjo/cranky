@@ -4,32 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Shopping Mall</title>
-    <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="/elice-rabbit-favicon.png"
     />
-    <!-- bulma css 관련 -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     />
-    <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
-    <!-- Daum 주소 API 사용하기 위한 파일 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="order.css" />
     <script src="order.js" type="module" defer></script>
   </head>
   <body>
-    <!-- 헤더 -->
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="container mt-3">
         <div class="navbar-brand">
@@ -66,7 +60,6 @@
       </div>
     </nav>
 
-    <!-- 배송지 정보 입력 박스 -->
     <section class="section">
       <div class="container">
         <div class="cart-header">
@@ -84,7 +77,6 @@
         <div class="tile is-ancestor">
           <div class="tile is-parent cart-products">
             <div class="box delivery-info">
-              <!-- 배송지 정보 -->
               <p class="subtitle is-4">배송지정보</p>
               <div class="field is-horizontal">
                 <div class="field-label is-normal">
@@ -240,7 +232,6 @@
             </div>
           </div>
 
-          <!-- 주문 정보 요약 -->
           <div class="tile is-parent tile-order-summary">
             <div class="box order-summary">
               <div class="header">

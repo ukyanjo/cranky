@@ -9,20 +9,17 @@ import {
   createNavbar,
 } from "../../useful-functions.js";
 
-// 요소(element), input 혹은 상수
 const productItemContainer = document.querySelector("#producItemContainer");
 
 checkUrlParams("category");
 addAllElements();
 addAllEvents();
 
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllElements() {
   createNavbar();
   addProductItemsToContainer();
 }
 
-// addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {}
 
 async function addProductItemsToContainer() {
@@ -30,7 +27,6 @@ async function addProductItemsToContainer() {
   const products = await Api.get(`/api/productlist/category/${category}`);
 
   products.forEach(async (product) => {
-    // 객체 destructuring
     const { _id, title, shortDescription, imageKey, isRecommended, price } =
       product;
     const imageUrl = await getImageUrl(imageKey);

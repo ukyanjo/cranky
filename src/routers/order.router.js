@@ -4,12 +4,16 @@ import { orderService } from "../services";
 
 const orderRouter = Router();
 
-// api done
 orderRouter.post("/order", loginRequired, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
     const { totalPrice, address, request } = req.body;
-    const orderInfo = { userId, totalPrice, address, request };
+    const orderInfo = {
+      ...(userId && { userId }),
+      ...(totalPrice && { totalPrice }),
+      ...(address && { address }),
+      ...(request && { request }),
+    };
     const createdOrder = await orderService.addOrder(orderInfo);
     res.status(201).json(createdOrder);
   } catch (error) {
@@ -17,7 +21,6 @@ orderRouter.post("/order", loginRequired, async (req, res, next) => {
   }
 });
 
-// api/done
 orderRouter.get("/orderlist/all", adminOnly, async function (req, res, next) {
   try {
     const foundOrders = await orderService.getAllOrders();
@@ -27,7 +30,6 @@ orderRouter.get("/orderlist/all", adminOnly, async function (req, res, next) {
   }
 });
 
-//api done
 orderRouter.get(
   "/orderlist/user",
   loginRequired,
@@ -42,7 +44,6 @@ orderRouter.get(
   }
 );
 
-//api done
 orderRouter.get(
   "/orders/:orderId",
   loginRequired,
@@ -57,7 +58,6 @@ orderRouter.get(
   }
 );
 
-// api done
 orderRouter.patch(
   "/orders/:orderId",
   loginRequired,
@@ -65,11 +65,6 @@ orderRouter.patch(
     try {
       const { orderId } = req.params;
       const { address, request, status } = req.body;
-      // const updateInfo = {
-      //   address,
-      //   request,
-      //   status,
-      // };
       const updateInfo = {
         ...(address && { address }),
         ...(request && { request }),
@@ -83,7 +78,6 @@ orderRouter.patch(
   }
 );
 
-// api done
 orderRouter.delete(
   "/orders/:orderId",
   loginRequired,

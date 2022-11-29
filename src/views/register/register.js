@@ -1,7 +1,6 @@
 import * as Api from "../api.js";
 import { validateEmail, createNavbar } from "../useful-functions.js";
 
-// 요소(element), input 혹은 상수
 const fullNameInput = document.querySelector("#fullNameInput");
 const emailInput = document.querySelector("#emailInput");
 const passwordInput = document.querySelector("#passwordInput");
@@ -11,17 +10,14 @@ const submitButton = document.querySelector("#submitButton");
 addAllElements();
 addAllEvents();
 
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 async function addAllElements() {
   createNavbar();
 }
 
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
   submitButton.addEventListener("click", handleSubmit);
 }
 
-// 회원가입 진행
 async function handleSubmit(e) {
   e.preventDefault();
 
@@ -30,7 +26,6 @@ async function handleSubmit(e) {
   const password = passwordInput.value;
   const passwordConfirm = passwordConfirmInput.value;
 
-  // 잘 입력했는지 확인
   const isFullNameValid = fullName.length >= 2;
   const isEmailValid = validateEmail(email);
   const isPasswordValid = password.length >= 4;
@@ -48,7 +43,6 @@ async function handleSubmit(e) {
     return alert("비밀번호가 일치하지 않습니다.");
   }
 
-  // 회원가입 api 요청
   try {
     const data = { fullName, email, password };
 
@@ -56,7 +50,6 @@ async function handleSubmit(e) {
 
     alert(`정상적으로 회원가입되었습니다.`);
 
-    // 로그인 페이지 이동
     window.location.href = "/login";
   } catch (err) {
     console.error(err.stack);

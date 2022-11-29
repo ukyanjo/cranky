@@ -9,7 +9,6 @@ import {
 } from "../useful-functions.js";
 import { deleteFromDb, getFromDb, putToDb } from "../indexed-db.js";
 
-// 요소(element), input 혹은 상수
 const subtitleCart = document.querySelector("#subtitleCart");
 const receiverNameInput = document.querySelector("#receiverName");
 const receiverPhoneNumberInput = document.querySelector("#receiverPhoneNumber");
@@ -41,14 +40,12 @@ checkLogin();
 addAllElements();
 addAllEvents();
 
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllElements() {
   createNavbar();
   insertOrderSummary();
   insertUserData();
 }
 
-// addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
   subtitleCart.addEventListener("click", navigate("/cart"));
   searchAddressButton.addEventListener("click", searchAddress);
@@ -56,7 +53,6 @@ function addAllEvents() {
   checkoutButton.addEventListener("click", doCheckout);
 }
 
-// Daum 주소 API (사용 설명 https://postcode.map.daum.net/guide)
 function searchAddress() {
   new daum.Postcode({
     oncomplete: function (data) {
@@ -91,14 +87,12 @@ function searchAddress() {
   }).open();
 }
 
-// 페이지 로드 시 실행되며, 결제정보 카드에 값을 삽입함.
 async function insertOrderSummary() {
   const { ids, selectedIds, productsTotal } = await getFromDb(
     "order",
     "summary"
   );
 
-  // 구매할 아이템이 없다면 다른 페이지로 이동시킴
   const hasItemInCart = ids.length !== 0;
   const hasItemToCheckout = selectedIds.length !== 0;
 
@@ -117,12 +111,10 @@ async function insertOrderSummary() {
     return window.location.replace("/cart");
   }
 
-  // 화면에 보일 상품명
   let productsTitle = "";
 
   for (const id of selectedIds) {
     const { title, quantity } = await getFromDb("cart", id);
-    // 첫 제품이 아니라면, 다음 줄에 출력되도록 \n을 추가함
     if (productsTitle) {
       productsTitle += "\n";
     }
@@ -148,7 +140,6 @@ async function insertUserData() {
   const userData = await Api.get("/api/user");
   const { fullName, phoneNumber, address } = userData;
 
-  // 만약 db에 데이터 값이 있었다면, 배송지정보에 삽입
   if (fullName) {
     receiverNameInput.value = fullName;
   }
@@ -164,8 +155,6 @@ async function insertUserData() {
   }
 }
 
-// "직접 입력" 선택 시 input칸 보이게 함
-// default값(배송 시 요청사항을 선택해 주세여) 이외를 선택 시 글자가 진해지도록 함
 function handleRequestChange(e) {
   const type = e.target.value;
 
@@ -183,7 +172,6 @@ function handleRequestChange(e) {
   }
 }
 
-// 결제 진행
 async function doCheckout() {
   const receiverName = receiverNameInput.value;
   const receiverPhoneNumber = receiverPhoneNumberInput.value;
@@ -200,7 +188,6 @@ async function doCheckout() {
     return alert("배송지 정보를 모두 입력해 주세요.");
   }
 
-  // 요청사항의 종류에 따라 request 문구가 달라짐
   let request;
   if (requestType === "0") {
     request = "요청사항 없음.";
@@ -222,7 +209,6 @@ async function doCheckout() {
   };
 
   try {
-    // 전체 주문을 등록함
     const orderData = await Api.post("/api/order", {
       summaryTitle,
       totalPrice,
@@ -232,7 +218,6 @@ async function doCheckout() {
 
     const orderId = orderData._id;
 
-    // 제품별로 주문아이템을 등록함
     for (const productId of selectedIds) {
       const { quantity, price } = await getFromDb("cart", productId);
       const totalPrice = quantity * price;
@@ -244,7 +229,6 @@ async function doCheckout() {
         totalPrice,
       });
 
-      // indexedDB에서 해당 제품 관련 데이터를 제거함
       await deleteFromDb("cart", productId);
       await putToDb("order", "summary", (data) => {
         data.ids = data.ids.filter((id) => id !== productId);
@@ -254,7 +238,6 @@ async function doCheckout() {
       });
     }
 
-    // 입력된 배송지정보를 유저db에 등록함
     const data = {
       phoneNumber: receiverPhoneNumber,
       address: {

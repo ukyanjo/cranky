@@ -4,30 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Shopping Mall</title>
-    <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="/elice-rabbit-favicon.png"
     />
-    <!-- bulma css -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     />
-    <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
-    <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="admin-users.css" />
     <script src="admin-users.js" type="module" defer></script>
   </head>
   <body>
-    <!-- 헤더 -->
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="container mt-3">
         <div class="navbar-brand">
@@ -64,15 +59,12 @@
       </div>
     </nav>
 
-    <!-- 회원관리 -->
     <section class="section">
       <div class="container">
-        <!-- 제목 -->
         <div class="block account-header">
           <h1 class="subtitle is-4">회원관리</h1>
         </div>
 
-        <!-- 총 요약 -->
         <nav class="level">
           <div class="level-item has-text-centered">
             <div>
@@ -88,7 +80,6 @@
           </div>
         </nav>
 
-        <!-- 회원 목록 -->
         <div class="container orders-container" id="usersContainer">
           <div
             class="columns notification is-info is-light is-mobile orders-top"
@@ -103,7 +94,6 @@
       </div>
     </section>
 
-    <!-- 회원정보를 정말 삭제할 지 묻는 Modal 창 -->
     <div id="modal" class="modal">
       <div class="modal-background" id="modalBackground"></div>
       <div class="modal-content">

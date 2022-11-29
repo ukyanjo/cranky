@@ -2,7 +2,6 @@ import { addImageToS3 } from "../../aws-s3.js";
 import * as Api from "../../api.js";
 import { checkLogin, createNavbar } from "../../useful-functions.js";
 
-// 요소(element), input 혹은 상수
 const titleInput = document.querySelector("#titleInput");
 const descriptionInput = document.querySelector("#descriptionInput");
 const themeSelectBox = document.querySelector("#themeSelectBox");
@@ -15,19 +14,16 @@ checkLogin();
 addAllElements();
 addAllEvents();
 
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 async function addAllElements() {
   createNavbar();
 }
 
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
   submitButton.addEventListener("click", handleSubmit);
   themeSelectBox.addEventListener("change", handleColorChange);
   imageInput.addEventListener("change", handleImageUpload);
 }
 
-// 카테고리 추가하기 - 사진은 AWS S3에 저장, 이후 카테고리 정보를 백엔드 db에 저장.
 async function handleSubmit(e) {
   e.preventDefault();
 
@@ -36,7 +32,6 @@ async function handleSubmit(e) {
   const themeClass = themeSelectBox.value;
   const image = imageInput.files[0];
 
-  // 입력 칸이 비어 있으면 진행 불가
   if (!title || !description) {
     return alert("빈 칸이 없어야 합니다.");
   }
@@ -57,7 +52,6 @@ async function handleSubmit(e) {
 
     alert(`정상적으로 ${title} 카테고리가 등록되었습니다.`);
 
-    // 폼 초기화
     registerCategoryForm.reset();
     fileNameSpan.innerText = "";
     themeSelectBox.style.backgroundColor = "white";
@@ -68,7 +62,6 @@ async function handleSubmit(e) {
   }
 }
 
-// 사용자가 사진을 업로드했을 때, 파일 이름이 화면에 나타나도록 함.
 function handleImageUpload() {
   const file = imageInput.files[0];
   if (file) {
@@ -78,7 +71,6 @@ function handleImageUpload() {
   }
 }
 
-// 색상 선택 시, 선택박스에 해당 색상 반영되게 함.
 function handleColorChange() {
   const index = themeSelectBox.selectedIndex;
 

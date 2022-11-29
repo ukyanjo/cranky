@@ -4,11 +4,14 @@ import { userService } from "../services";
 
 const userRouter = Router();
 
-// API done
 userRouter.post("/register", async (req, res, next) => {
   try {
     const { fullName, email, password } = req.body;
-    const userInfo = { fullName, email, password };
+    const userInfo = {
+      ...(fullName && { fullName }),
+      ...(email && { email }),
+      ...(password && { password }),
+    };
     const createdUser = await userService.addUser(userInfo);
     res.status(201).json(createdUser);
   } catch (error) {
@@ -16,11 +19,13 @@ userRouter.post("/register", async (req, res, next) => {
   }
 });
 
-// API done
 userRouter.post("/login", async function (req, res, next) {
   try {
     const { email, password } = req.body;
-    const loginInfo = { email, password };
+    const loginInfo = {
+      ...(email && { email }),
+      ...(password && { password }),
+    };
     const loginResult = await userService.loginAndGetToken(loginInfo);
     res.status(200).json(loginResult);
   } catch (error) {
@@ -28,7 +33,6 @@ userRouter.post("/login", async function (req, res, next) {
   }
 });
 
-// API done
 userRouter.post(
   "/user/password/check",
   loginRequired,
@@ -44,7 +48,6 @@ userRouter.post(
   }
 );
 
-//api don
 userRouter.get("/userlist", adminOnly, async function (req, res, next) {
   try {
     const foundUsers = await userService.getAllUsers();
@@ -54,7 +57,6 @@ userRouter.get("/userlist", adminOnly, async function (req, res, next) {
   }
 });
 
-//adpi done
 userRouter.get("/user", loginRequired, async function (req, res, next) {
   try {
     const userId = req.currentUserId;
@@ -65,7 +67,6 @@ userRouter.get("/user", loginRequired, async function (req, res, next) {
   }
 });
 
-// api done
 userRouter.patch(
   "/users/:userId",
   loginRequired,
@@ -74,22 +75,16 @@ userRouter.patch(
       const { userId } = req.params;
       const { fullName, password, address, phoneNumber, currentPassword } =
         req.body;
-      // const updateInfo = {
-      //   fullName,
-      //   password,
-      //   address,
-      //   phoneNumber,
-      // };
-      if (!currentPassword) {
-        throw new Error("회원정보를 수정하려면 비밀번호가 필요합니다.");
-      }
-      const userInfo = { userId, currentPassword };
       const updateInfo = {
         ...(fullName && { fullName }),
         ...(password && { password }),
         ...(address && { address }),
         ...(phoneNumber && { phoneNumber }),
       };
+      if (!currentPassword) {
+        throw new Error("회원정보를 수정하려면 비밀번호가 필요합니다.");
+      }
+      const userInfo = { userId, currentPassword };
       const updatedUser = await userService.setUser(userInfo, updateInfo);
       res.status(200).json(updatedUser);
     } catch (error) {
@@ -98,7 +93,6 @@ userRouter.patch(
   }
 );
 
-//api done
 userRouter.patch(
   "/users/role/:userId",
   adminOnly,
@@ -114,7 +108,6 @@ userRouter.patch(
   }
 );
 
-//adpi done
 userRouter.post(
   "/user/deliveryinfo",
   loginRequired,
@@ -123,13 +116,9 @@ userRouter.post(
       const userId = req.currentUserId;
       const { address, phoneNumber } = req.body;
       const updateInfo = {
-        address,
-        phoneNumber,
+        ...(address && { address }),
+        ...(phoneNumber && { phoneNumber }),
       };
-      // const deliveryinfo = {
-      //   ...(address && { address }),
-      //   ...(phoneNumber && { phoneNumber }),
-      // };
       const updatedUser = await userService.setDeliveryInfo(userId, updateInfo);
       res.status(200).json(updatedUser);
     } catch (error) {
@@ -138,7 +127,6 @@ userRouter.post(
   }
 );
 
-// api done
 userRouter.delete(
   "/users/:userId",
   loginRequired,
@@ -153,7 +141,6 @@ userRouter.delete(
   }
 );
 
-//api done
 userRouter.get("/admin/check", adminOnly, async function (req, res, next) {
   try {
     res.status(200).json({ result: "success" });

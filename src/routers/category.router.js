@@ -4,11 +4,14 @@ import { categoryService } from "../services";
 
 const categoryRouter = Router();
 
-//api done
 categoryRouter.post("/category", adminOnly, async (req, res, next) => {
   try {
     const { title, description, imageKey } = req.body;
-    const categoryInfo = { title, description, imageKey };
+    const categoryInfo = {
+      ...(title && { title }),
+      ...(description && { description }),
+      ...(imageKey && { imageKey }),
+    };
     const createdCategory = await categoryService.addCategory(categoryInfo);
     res.status(201).json(createdCategory);
   } catch (error) {
@@ -16,7 +19,6 @@ categoryRouter.post("/category", adminOnly, async (req, res, next) => {
   }
 });
 
-//api done
 categoryRouter.get("/categorylist", async function (req, res, next) {
   try {
     const foundCategorys = await categoryService.getCategorys();
@@ -26,7 +28,6 @@ categoryRouter.get("/categorylist", async function (req, res, next) {
   }
 });
 
-//api done
 categoryRouter.get(
   "/categorys/:categoryId",
   loginRequired,
@@ -41,7 +42,6 @@ categoryRouter.get(
   }
 );
 
-// api done
 categoryRouter.patch(
   "/categorys/:categoryId",
   adminOnly,
@@ -49,11 +49,6 @@ categoryRouter.patch(
     try {
       const { categoryId } = req.params;
       const { title, description, imageKey } = req.body;
-      // const updateInfo = {
-      //   title,
-      //   description,
-      //   imageKey,
-      // };
       const updateInfo = {
         ...(title && { title }),
         ...(description && { description }),
@@ -70,7 +65,6 @@ categoryRouter.patch(
   }
 );
 
-//api done
 categoryRouter.delete(
   "/categorys/:categoryId",
   adminOnly,

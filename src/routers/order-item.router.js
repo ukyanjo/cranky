@@ -4,11 +4,15 @@ import { orderItemService } from "../services";
 
 const orderItemRouter = Router();
 
-// api done
 orderItemRouter.post("/orderitem", loginRequired, async (req, res, next) => {
   try {
     const { orderId, productId, quantity, totalPrice } = req.body;
-    const orderItemInfo = { orderId, productId, quantity, totalPrice };
+    const orderItemInfo = {
+      ...(orderId && { orderId }),
+      ...(productId && { productId }),
+      ...(quantity && { quantity }),
+      ...(totalPrice && { totalPrice }),
+    };
     const createdOrderItem = await orderItemService.addOrderItem(orderItemInfo);
     res.status(201).json(createdOrderItem);
   } catch (error) {
@@ -16,7 +20,6 @@ orderItemRouter.post("/orderitem", loginRequired, async (req, res, next) => {
   }
 });
 
-// api done
 orderItemRouter.get(
   "/orderitemlist/all",
   adminOnly,
@@ -30,7 +33,6 @@ orderItemRouter.get(
   }
 );
 
-// api done
 orderItemRouter.get(
   "/orderitemlist/order/:orderId",
   loginRequired,
@@ -47,7 +49,6 @@ orderItemRouter.get(
   }
 );
 
-// api done, 이건 왜 있지?
 orderItemRouter.get(
   "/orderitemlist/product/:productId",
   loginRequired,
@@ -64,7 +65,6 @@ orderItemRouter.get(
   }
 );
 
-//api done
 orderItemRouter.get(
   "/orderitems/:orderItemId",
   loginRequired,
@@ -81,7 +81,6 @@ orderItemRouter.get(
   }
 );
 
-//api done
 orderItemRouter.patch(
   "/orderitems/:orderItemId",
   loginRequired,
@@ -89,7 +88,6 @@ orderItemRouter.patch(
     try {
       const { orderItemId } = req.params;
       const { quantity, totalPrice, status } = req.body;
-      // const updateInfo = { quantity, totalPrice, status };
       const updateInfo = {
         ...(quantity && { quantity }),
         ...(totalPrice && { totalPrice }),
@@ -106,7 +104,6 @@ orderItemRouter.patch(
   }
 );
 
-//api done
 orderItemRouter.delete(
   "/orderitems/:orderItemId",
   loginRequired,

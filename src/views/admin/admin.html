@@ -4,30 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Shopping Mall</title>
-    <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="/elice-rabbit-favicon.png"
     />
-    <!-- bulma css -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     />
-    <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
-    <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="admin.css" />
     <script src="admin.js" type="module" defer></script>
   </head>
   <body>
-    <!-- 헤더 -->
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="container mt-3">
         <div class="navbar-brand">
@@ -64,14 +59,12 @@
       </div>
     </nav>
 
-    <!-- 관리지만 가능한 웹페이지 관리 관련 목록 -->
     <section class="section">
       <div class="container">
         <div class="block account-header">
           <h1 class="title">웹서비스 관리</h1>
         </div>
         <div class="menu-container">
-          <!-- 주문관리 -->
           <a class="menu-card" href="/admin/orders">
             <div class="menu-icon">
               <span class="icon has-text-info">
@@ -86,7 +79,6 @@
             </div>
           </a>
 
-          <!-- 회원관리 -->
           <a class="menu-card" href="/admin/users">
             <div class="menu-icon">
               <span class="icon has-text-info">
@@ -101,7 +93,6 @@
             </div>
           </a>
 
-          <!-- 카테고리 추가하기 -->
           <a class="menu-card" href="/category/add">
             <div class="menu-icon">
               <span class="icon has-text-info">
@@ -116,7 +107,6 @@
             </div>
           </a>
 
-          <!-- 제품 추가하기 -->
           <a class="menu-card" href="/product/add">
             <div class="menu-icon">
               <span class="icon has-text-info">
