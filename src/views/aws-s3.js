@@ -1,19 +1,15 @@
 import { randomId } from "./useful-functions.js";
 
-// aws-s3 사이트에서의 설정값들
-const s3BucketName = "elice-shopping";
-const bucketRegion = "ap-northeast-2"; // 한국은 항상 ap-northeast-2임.
-const IdentityPoolId = "ap-northeast-2:e328a1b0-7264-4923-8606-a8f0a5dbc995";
+const s3BucketName = "cranky";
+const bucketRegion = "ap-northeast-2";
 
-// aws 공식문서 그대로 가져옴
 AWS.config.update({
   region: bucketRegion,
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId,
+    IdentityPoolId: process.env.IdentityPoolId,
   }),
 });
 
-// aws 공식문서 그대로 가져옴
 const s3 = new AWS.S3({
   apiVersion: "2006-03-01",
   params: { Bucket: s3BucketName },
