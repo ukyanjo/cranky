@@ -83,8 +83,8 @@ const addNavElements = (keyString) => {
 
   const logoutScript = document.createElement("script");
   logoutScript.innerText = `
-      const logoutElem = document.querySelector('#logout'); 
-      
+      const logoutElem = document.querySelector('#logout');
+
       if (logoutElem) {
         logoutElem.addEventListener('click', () => {
           sessionStorage.removeItem('token');

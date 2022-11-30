@@ -1,12 +1,13 @@
 import { randomId } from "./useful-functions.js";
 
 const s3BucketName = "cranky";
-const bucketRegion = "ap-northeast-2";
+const bucketRegion = "ap-northeast-1";
+const IdentityPoolId = "ap-northeast-1:163b7a7c-829e-457f-aed9-e0efac914055";
 
 AWS.config.update({
   region: bucketRegion,
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: process.env.IdentityPoolId,
+    IdentityPoolId: IdentityPoolId,
   }),
 });
 

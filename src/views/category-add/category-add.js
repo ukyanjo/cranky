@@ -26,7 +26,6 @@ function addAllEvents() {
 
 async function handleSubmit(e) {
   e.preventDefault();
-
   const title = titleInput.value;
   const description = descriptionInput.value;
   // const themeClass = themeSelectBox.value;

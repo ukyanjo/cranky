@@ -4,7 +4,6 @@ const CategorySchema = new Schema(
   {
     title: {
       type: String,
-      enum: ["OUTWEAR", "TOPS", "BOTTOMS", "FOOTWEAR", "ACCESSORIES"],
       unique: true,
       required: true,
     },
