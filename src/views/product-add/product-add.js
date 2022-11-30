@@ -6,9 +6,6 @@ const titleInput = document.querySelector("#titleInput");
 const categorySelectBox = document.querySelector("#categorySelectBox");
 const manufacturerInput = document.querySelector("#manufacturerInput");
 const shortDescriptionInput = document.querySelector("#shortDescriptionInput");
-const detailDescriptionInput = document.querySelector(
-  "#detailDescriptionInput"
-);
 const imageInput = document.querySelector("#imageInput");
 const inventoryInput = document.querySelector("#inventoryInput");
 const priceInput = document.querySelector("#priceInput");
@@ -24,7 +21,6 @@ addAllEvents();
 
 function addAllElements() {
   createNavbar();
-  addOptionsToSelectBox();
 }
 
 function addAllEvents() {
@@ -41,7 +37,6 @@ async function handleSubmit(e) {
   const categoryId = categorySelectBox.value;
   const manufacturer = manufacturerInput.value;
   const shortDescription = shortDescriptionInput.value;
-  const detailDescription = detailDescriptionInput.value;
   const image = imageInput.files[0];
   const inventory = parseInt(inventoryInput.value);
   const price = parseInt(priceInput.value);
@@ -51,11 +46,10 @@ async function handleSubmit(e) {
     !categoryId ||
     !manufacturer ||
     !shortDescription ||
-    !detailDescription ||
     !inventory ||
     !price
   ) {
-    return alert("빈 칸 및 0이 없어야 합니다.");
+    return alert("모든 사항을 기입해주세요.");
   }
 
   if (image.size > 3e6) {
@@ -72,7 +66,6 @@ async function handleSubmit(e) {
       categoryId,
       manufacturer,
       shortDescription,
-      detailDescription,
       imageKey,
       inventory,
       price,
@@ -81,7 +74,7 @@ async function handleSubmit(e) {
 
     await Api.post("/api/product", data);
 
-    alert(`정상적으로 ${title} 제품이 등록되었습니다.`);
+    alert(`정상적으로 ${title} 상품이 등록되었습니다.`);
 
     registerProductForm.reset();
     fileNameSpan.innerText = "";
@@ -90,9 +83,7 @@ async function handleSubmit(e) {
     categorySelectBox.style.backgroundColor = "white";
     searchKeywords = [];
   } catch (err) {
-    console.log(err.stack);
-
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`문제가 발생했습니다: ${err.message}`);
   }
 }
 
@@ -103,19 +94,6 @@ function handleImageUpload() {
   } else {
     fileNameSpan.innerText = "";
   }
-}
-
-async function addOptionsToSelectBox() {
-  const categorys = await Api.get("/api/categorylist");
-  categorys.forEach((category) => {
-    const { _id, title, themeClass } = category;
-
-    categorySelectBox.insertAdjacentHTML(
-      "beforeend",
-      `
-      <option value=${_id} class="notification ${themeClass}"> ${title} </option>`
-    );
-  });
 }
 
 function handleCategoryChange() {

@@ -32,7 +32,7 @@ async function handleSubmit(e) {
   const isPasswordSame = password === passwordConfirm;
 
   if (!isFullNameValid || !isPasswordValid) {
-    return alert("이름은 2글자 이상, 비밀번호는 4글자 이상이어야 합니다.");
+    return alert("이름은 두 글자 이상, 비밀번호는 네 글자 이상이어야 합니다.");
   }
 
   if (!isEmailValid) {
@@ -48,11 +48,10 @@ async function handleSubmit(e) {
 
     await Api.post("/api/register", data);
 
-    alert(`정상적으로 회원가입되었습니다.`);
+    alert(`정상적으로 가입되었습니다.`);
 
     window.location.href = "/login";
   } catch (err) {
-    console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
   }
 }

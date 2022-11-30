@@ -60,7 +60,7 @@ async function insertUsers() {
                   class="has-background-link-light has-text-link"
                   ${role === "basic-user" ? "selected" : ""} 
                   value="basic-user">
-                  일반사용자
+                  일반 사용자
                 </option>
                 <option 
                   class="has-background-danger-light has-text-danger"

@@ -100,13 +100,13 @@ async function insertOrderSummary() {
     const categorys = await Api.get("/api/categorylist");
     const categoryTitle = randomPick(categorys).title;
 
-    alert(`구매할 제품이 없습니다. 제품을 선택해 주세요.`);
+    alert(`구매할 상품이 없습니다. 상품을 선택해 주세요.`);
 
     return window.location.replace(`/product/list?category=${categoryTitle}`);
   }
 
   if (!hasItemToCheckout) {
-    alert("구매할 제품이 없습니다. 장바구니에서 선택해 주세요.");
+    alert("구매할 상품이 없습니다. 장바구니에서 상품을 선택해 주세요.");
 
     return window.location.replace("/cart");
   }
@@ -180,7 +180,6 @@ async function doCheckout() {
   const address2 = address2Input.value;
   const requestType = requestSelectBox.value;
   const customRequest = customRequestInput.value;
-  const summaryTitle = productsTitleElem.innerText;
   const totalPrice = convertToNumber(orderTotalElem.innerText);
   const { selectedIds } = await getFromDb("order", "summary");
 
@@ -210,7 +209,6 @@ async function doCheckout() {
 
   try {
     const orderData = await Api.post("/api/order", {
-      summaryTitle,
       totalPrice,
       address,
       request,
@@ -248,10 +246,10 @@ async function doCheckout() {
     };
     await Api.post("/api/user/deliveryinfo", data);
 
-    alert("결제 및 주문이 정상적으로 완료되었습니다.\n감사합니다.");
+    alert("결제가 정상적으로 완료됐습니다.\n감사합니다.");
     window.location.href = "/order/complete";
   } catch (err) {
     console.log(err);
-    alert(`결제 중 문제가 발생하였습니다: ${err.message}`);
+    alert(`문제가 발생했습니다: ${err.message}`);
   }
 }

@@ -41,7 +41,7 @@ async function insertOrders() {
   };
 
   for (const order of orders) {
-    const { _id, totalPrice, createdAt, summaryTitle, status } = order;
+    const { _id, totalPrice, createdAt, status } = order;
     const date = createdAt.split("T")[0];
 
     summary.ordersCount += 1;
@@ -50,7 +50,7 @@ async function insertOrders() {
       summary.prepareCount += 1;
     } else if (status === "상품 배송중") {
       summary.deliveryCount += 1;
-    } else if (status === "배송완료") {
+    } else if (status === "배송 완료") {
       summary.completeCount += 1;
     }
 
@@ -59,7 +59,6 @@ async function insertOrders() {
       `
         <div class="columns orders-item" id="order-${_id}">
           <div class="column is-2">${date}</div>
-          <div class="column is-4 order-summary">${summaryTitle}</div>
           <div class="column is-2">${addCommas(totalPrice)}</div>
           <div class="column is-2">
             <div class="select" >
@@ -126,7 +125,7 @@ async function deleteOrderData(e) {
   try {
     await Api.delete("/api/orders", orderIdToDelete);
 
-    alert("주문 정보가 삭제되었습니다.");
+    alert("주문 정보가 삭제됐습니다.");
 
     const deletedItem = document.querySelector(`#order-${orderIdToDelete}`);
     deletedItem.remove();
@@ -135,7 +134,7 @@ async function deleteOrderData(e) {
 
     closeModal();
   } catch (err) {
-    alert(`주문정보 삭제 과정에서 오류가 발생하였습니다: ${err}`);
+    alert(`오류가 발생했습니다: ${err}`);
   }
 }
 

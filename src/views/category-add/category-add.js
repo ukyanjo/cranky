@@ -4,7 +4,7 @@ import { checkLogin, createNavbar } from "../../useful-functions.js";
 
 const titleInput = document.querySelector("#titleInput");
 const descriptionInput = document.querySelector("#descriptionInput");
-const themeSelectBox = document.querySelector("#themeSelectBox");
+// const themeSelectBox = document.querySelector("#themeSelectBox");
 const imageInput = document.querySelector("#imageInput");
 const fileNameSpan = document.querySelector("#fileNameSpan");
 const submitButton = document.querySelector("#addCategoryButton");
@@ -20,7 +20,7 @@ async function addAllElements() {
 
 function addAllEvents() {
   submitButton.addEventListener("click", handleSubmit);
-  themeSelectBox.addEventListener("change", handleColorChange);
+  // themeSelectBox.addEventListener("change", handleColorChange);
   imageInput.addEventListener("change", handleImageUpload);
 }
 
@@ -29,16 +29,16 @@ async function handleSubmit(e) {
 
   const title = titleInput.value;
   const description = descriptionInput.value;
-  const themeClass = themeSelectBox.value;
+  // const themeClass = themeSelectBox.value;
   const image = imageInput.files[0];
 
   if (!title || !description) {
     return alert("빈 칸이 없어야 합니다.");
   }
 
-  if (!themeClass) {
-    return alert("테마를 선택해 주세요.");
-  }
+  // if (!themeClass) {
+  //   return alert("테마를 선택해 주세요.");
+  // }
 
   if (image.size > 3e6) {
     return alert("사진은 최대 2.5MB 크기까지 가능합니다.");
@@ -46,7 +46,7 @@ async function handleSubmit(e) {
 
   try {
     const imageKey = await addImageToS3(imageInput, "category");
-    const data = { title, description, themeClass, imageKey };
+    const data = { title, description, imageKey };
 
     await Api.post("/api/category", data);
 
@@ -54,11 +54,10 @@ async function handleSubmit(e) {
 
     registerCategoryForm.reset();
     fileNameSpan.innerText = "";
-    themeSelectBox.style.backgroundColor = "white";
-    themeSelectBox.style.color = "black";
+    // themeSelectBox.style.backgroundColor = "white";
+    // themeSelectBox.style.color = "black";
   } catch (err) {
-    console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`문제가 발생했습니다. 확인 후 다시 시도해주세요: ${err.message}`);
   }
 }
 
@@ -71,10 +70,10 @@ function handleImageUpload() {
   }
 }
 
-function handleColorChange() {
-  const index = themeSelectBox.selectedIndex;
+// function handleColorChange() {
+//   const index = themeSelectBox.selectedIndex;
 
-  themeSelectBox.style.color = themeSelectBox[index].style.color;
-  themeSelectBox.style.backgroundColor =
-    themeSelectBox[index].style.backgroundColor;
-}
+//   themeSelectBox.style.color = themeSelectBox[index].style.color;
+//   themeSelectBox.style.backgroundColor =
+//     themeSelectBox[index].style.backgroundColor;
+// }

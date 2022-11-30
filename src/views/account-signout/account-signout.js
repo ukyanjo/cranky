@@ -36,13 +36,13 @@ async function deleteUserData(e) {
 
     await Api.delete("/api/users", _id);
 
-    alert("회원 정보가 안전하게 삭제되었습니다.");
+    alert("탈퇴가 정상적으로 처리됐습니다.");
 
     sessionStorage.removeItem("token");
 
     window.location.href = "/";
   } catch (err) {
-    alert(`회원정보 삭제 과정에서 오류가 발생하였습니다: ${err}`);
+    alert(`오류가 발생했습니다: ${err}`);
 
     closeModal();
   }

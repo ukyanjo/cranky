@@ -57,13 +57,11 @@ async function insertProductData() {
     try {
       await insertDb(product);
 
-      alert("장바구니에 추가되었습니다.");
+      alert("장바구니에 추가됐습니다.");
     } catch (err) {
       if (err.message.includes("Key")) {
-        alert("이미 장바구니에 추가되어 있습니다.");
+        alert("이미 장바구니에 있는 상품입니다.");
       }
-
-      console.log(err);
     }
   });
 
@@ -73,8 +71,6 @@ async function insertProductData() {
 
       window.location.href = "/order";
     } catch (err) {
-      console.log(err);
-
       window.location.href = "/order";
     }
   });

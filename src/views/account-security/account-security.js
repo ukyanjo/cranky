@@ -191,11 +191,11 @@ async function saveUserData(e) {
 
   if (password && !isPasswordLong) {
     closeModal();
-    return alert("비밀번호는 4글자 이상이어야 합니다.");
+    return alert("비밀번호는 네 글자 이상이어야 합니다.");
   }
   if (password && !isPasswordSame) {
     closeModal();
-    return alert("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+    return alert("비밀번호를 다시 확인해주세요.");
   }
 
   const data = { currentPassword };
@@ -236,11 +236,11 @@ async function saveUserData(e) {
     const { _id } = userData;
     await Api.patch("/api/users", _id, data);
 
-    alert("회원정보가 안전하게 저장되었습니다.");
+    alert("회원정보가 수정되었습니다.");
     disableForm();
     closeModal();
   } catch (err) {
-    alert(`회원정보 저장 과정에서 오류가 발생하였습니다: ${err}`);
+    alert(`오류가 발생했습니다: ${err}`);
   }
 }
 

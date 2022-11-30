@@ -21,17 +21,15 @@ async function addImageCardsToSlider() {
   const categorys = await Api.get("/api/categorylist");
 
   for (const category of categorys) {
-    const { _id, title, description, themeClass, imageKey } = category;
+    const { _id, title, description, imageKey } = category;
     const imageUrl = await getImageUrl(imageKey);
 
     sliderDiv.insertAdjacentHTML(
       "beforeend",
       `
       <div class="card" id="category-${_id}">
-        <div class="notification ${themeClass}">
           <p class="title is-3 is-spaced">${title}</p>
           <p class="subtitle is-6">${description}</p>
-        </div>
         <div class="card-image">
           <figure class="image is-3by2">
             <img
