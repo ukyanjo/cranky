@@ -13,7 +13,6 @@ class ProductService {
       throw new Error("현재 사용중인 이름입니다. 다른 이름을 입력해주세요.");
     }
     const createdProduct = await this.productRepository.create(productInfo);
-    console.log("this done");
     return createdProduct;
   }
 

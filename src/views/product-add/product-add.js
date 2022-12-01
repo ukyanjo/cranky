@@ -21,6 +21,7 @@ addAllEvents();
 
 function addAllElements() {
   createNavbar();
+  addOptionsToSelectBox();
 }
 
 function addAllEvents() {
@@ -49,7 +50,7 @@ async function handleSubmit(e) {
     !inventory ||
     !price
   ) {
-    return alert("모든 사항을 기입해주세요.");
+    return alert("빈 칸이 없어야 합니다.");
   }
 
   if (image.size > 3e6) {
@@ -74,7 +75,7 @@ async function handleSubmit(e) {
 
     await Api.post("/api/product", data);
 
-    alert(`정상적으로 ${title} 상품이 등록되었습니다.`);
+    alert(`상품이 정상적으로 등록됐습니다.`);
 
     registerProductForm.reset();
     fileNameSpan.innerText = "";
@@ -83,6 +84,8 @@ async function handleSubmit(e) {
     categorySelectBox.style.backgroundColor = "white";
     searchKeywords = [];
   } catch (err) {
+    console.log(err.stack);
+
     alert(`문제가 발생했습니다: ${err.message}`);
   }
 }
@@ -94,6 +97,19 @@ function handleImageUpload() {
   } else {
     fileNameSpan.innerText = "";
   }
+}
+
+async function addOptionsToSelectBox() {
+  const categorys = await Api.get("/api/categorylist");
+  categorys.forEach((category) => {
+    const { _id, title } = category;
+
+    categorySelectBox.insertAdjacentHTML(
+      "beforeend",
+      `
+      <option value=${_id}"> ${title} </option>`
+    );
+  });
 }
 
 function handleCategoryChange() {

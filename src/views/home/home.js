@@ -31,7 +31,7 @@ async function addImageCardsToSlider() {
           <p class="title is-3 is-spaced">${title}</p>
           <p class="subtitle is-6">${description}</p>
         <div class="card-image">
-          <figure class="image is-3by2">
+          <figure class="image is-2by1">
             <img
               src="${imageUrl}"
               alt="카테고리 이미지"

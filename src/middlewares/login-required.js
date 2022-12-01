@@ -14,6 +14,7 @@ function loginRequired(req, res, next) {
     const decodedToken = jwt.verify(userToken, secretKey);
     const userId = decodedToken.userId;
     req.currentUserId = userId;
+    req.body.sellerId = userId;
     next();
   } catch (error) {
     res.status(401).json({

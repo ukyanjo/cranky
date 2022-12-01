@@ -42,7 +42,6 @@ async function insertProductData() {
 
   productImageTag.src = imageUrl;
   titleTag.innerText = title;
-  detailDescriptionTag.innerText = detailDescription;
   manufacturerTag.innerText = manufacturer;
   priceTag.innerText = `${addCommas(price)}원`;
 
