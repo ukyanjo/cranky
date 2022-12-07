@@ -1,1 +1,10 @@
-[README for cranky 594178a01c8d44dca87cad7b8dadc31a.md](https://github.com/ukyanjo/cranky/files/10177427/README.for.cranky.594178a01c8d44dca87cad7b8dadc31a.md)
+프로젝트 소개
+
+1. 반려묘 용품을 등록해서 판매하거나 구매할 수 있는 서비스 “cranky”입니다.
+2. 장바구니 기능이 구현되어있습니다.
+3. 관리자/일반 사용자가 구분되어 있습니다.
+4. 사용자/카테고리/상품/주문 관련 CRUD를 실행할 수 있습니다.
+5. 최초 Nginx 및 PM2로 배포했으나 현재는 로컬에서 실행해야 합니다.
+
+자세한 사항은 노션 링크를 확인 바랍니다.
+https://nice-earth-493.notion.site/README-for-cranky-594178a01c8d44dca87cad7b8dadc31a
